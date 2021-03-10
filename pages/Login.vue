@@ -1,16 +1,16 @@
 <template>
   <v-row>
     <v-col class="text-center">
-      <Login />
+      <RegisLog />
     </v-col>
   </v-row>
 </template>
 
 <script>
-import Login from '@/components/auth/Login'
+import RegisLog from '@/components/auth/RegisLog'
 export default {
   components: {
-    Login
+    RegisLog
   }
 }
 </script>

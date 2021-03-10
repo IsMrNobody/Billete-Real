@@ -103,12 +103,7 @@ export default {
         },
         {
           icon: 'mdi-chart-bubble',
-          title: 'registrar',
-          to: '/registrar'
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'login',
+          title: 'Ingresar/Registrar',
           to: '/login'
         }
       ],

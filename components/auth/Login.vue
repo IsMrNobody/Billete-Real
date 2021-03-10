@@ -51,7 +51,7 @@
             ripple
             @click.exact="send"
             ><v-icon left>mdi-silverware</v-icon>
-            Registrar
+            Ingresar
           </v-btn>
         </v-card-actions>
       </v-card>

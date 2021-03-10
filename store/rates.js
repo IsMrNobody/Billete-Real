@@ -1,7 +1,7 @@
 import { traerTasa, traerTasa2 } from '~/plugins/yadio-api'
 
 export const state = () => ({
-    itemSelect: null,
+    itemSelect: '',
     tasaSelected: [],
     data: [],
     totalTasa: '',

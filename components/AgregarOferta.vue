@@ -5,53 +5,69 @@
           <v-row class="d-flex d-sm-none">
             <Lista />
           </v-row>
-          <v-row>
-            <v-col cols sm="3">
-              <v-select
-              :items="monedas"
-              v-model="dataBase.coins"
-              label="Moneda"
-              ></v-select>
+          <v-form
+                v-model="valid"
+                @submit.prevent="addPost">
+            <v-row>
+              <v-col cols sm="3">
+                <v-select
+                  :items="monedas"
+                  v-model="dataBase.coins"
+                  :rules="billetesRules"
+                  label="Moneda"
+                ></v-select>
               </v-col>
 
-            <v-col cols sm="3">
-              <v-select
-              :items="ciudadSelect"
-              v-model="dataBase.ciudad"
-              label="ciudad"
-              ></v-select>
-            </v-col>
+              <v-col cols sm="3">
+                <v-select
+                  :items="ciudadSelect"
+                  v-model="dataBase.ciudad"
+                  :required="valid"
+                  label="ciudad"
+                ></v-select>
+              </v-col>
 
-            <v-col cols sm="3">
-            <v-text-field
+              <v-col cols sm="3">
+                <v-text-field
                   v-model="dataBase.amount"
+                  :rules="passRules"
                   type="number"
                   label="Monto"
-            ></v-text-field>
-            </v-col>
-            <v-col cols sm="3">
-              <v-text-field
-                    v-model="dataBase.billetes"
-                    @keyup.enter="enviarData"
-                    type="number"
-                    label="Billetes"
-              ></v-text-field>
-            </v-col>
+                ></v-text-field>
+              </v-col>
 
-            <v-col cols="7" sm="4">
-              <v-switch
-                v-model="switch1"
-                label="Delivery"
-                append-icon="mdi-car"
-                dense
-              >
-              </v-switch>
-            </v-col>
+              <v-col cols sm="3">
+                <v-text-field
+                  v-model="dataBase.billetes"
+                  type="number"
+                  label="Billetes"
+                  :rules="billetesRules"
 
-            <v-col align="center" class="my-auto" cols sm="3">
-                  <v-btn @click="addPost" text color="yellow">Enviar</v-btn>
-            </v-col>
-          </v-row>
+                ></v-text-field>
+              </v-col>
+
+              <v-col cols="8" sm="3">
+                <v-switch
+                  v-model="switch1"
+                  prepend-icon="mdi-car"
+                  dense
+                >
+                </v-switch>
+              </v-col>
+
+              <v-col cols="4">
+                <v-checkbox
+                    v-model="valid"
+                    :required="valid"
+                    :rules="[v => !!v || 'Aceptar condiciones!']"
+                    label="Aceptar"
+                  ></v-checkbox>
+              </v-col>
+              <v-col class="my-auto" align="center" cols sm="8">
+                  <v-btn type="submit" :disabled="!valid" outlined x-large color="yellow">Enviar</v-btn>
+              </v-col>
+            </v-row>
+          </v-form>
           <v-row class="d-none d-sm-flex">
             <Lista />
           </v-row>
@@ -60,6 +76,7 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2'
 import { db } from '@/plugins/firebase'
 const datosRef = db.ref('post')
 
@@ -72,6 +89,7 @@ import Lista from '~/components/Lista.vue'
       post: datosRef
     },
     data: () => ({
+      valid: false,
       switch1: false,
       dataBase: {
         billetes: '',
@@ -79,8 +97,12 @@ import Lista from '~/components/Lista.vue'
         amount: '',
         ciudad: ''
       },
-      valid: false,
-      nameRules: [
+      billetesRules: [
+        value => !!value || 'Required.',
+        // v => !!v || 'Numero es requerido',
+        // v => (v && v.length <= 10) || 'Name must be less than 10 characters',
+      ],
+      passRules: [
         v => !!v || 'Name is required',
         v => v.length <= 3 || 'Name must be less than 11 characters',
       ],
@@ -117,12 +139,22 @@ import Lista from '~/components/Lista.vue'
       // data enviada a firebase >>>
         addPost() {
           datosRef.push([this.dataBase, this.datselec, this.switch1])
+            Swal.fire({
+              position: 'top',
+              icon: 'success',
+              iconColor: 'orange',
+              title: 'billete publicado',
+              showConfirmButton: false,
+              toast: true,
+              background: '#171819',
+              timer: 1500,
+            })
           console.log(this.pedidos);
           this.dataBase.billetes = '',
           this.dataBase.coins = '',
           this.dataBase.amount = '',
-          this.dataBase.ciudad = ''
-          // datosRef.push(this.datselec)
+          this.dataBase.ciudad = '',
+          this.switch1 = false
         },
 
         // data enviada al store <<<>>>

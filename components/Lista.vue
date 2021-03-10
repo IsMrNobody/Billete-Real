@@ -14,7 +14,7 @@
         <v-list-item
           v-for="(item, i) in tasas"
           :key="i"
-          @click="tasaSelect(i)"
+          @click="tasaSelect()"
         >
           <v-list-item-icon>
             <v-img width="10" :src="item.icon"></v-img>
@@ -29,7 +29,7 @@
       </v-list-item-group>
     </v-list>
     <v-btn @click="objetos = !objetos" color="green" text>ver {}</v-btn>
-    <p v-show="objetos" class="green">{{ total }}</p>
+    <p v-show="objetos" class="green">{{ objeTotal }}</p>
   </v-card>
 </template>
 
@@ -51,13 +51,10 @@
       tasas() {
       return this.$store.state.rates.tasas
       },
-      selectr() {
-      return this.$store.state.rates.tasaSelected
-      },
       datselec() {
-        return this.tasas[`${this.selectr}`]
+        return this.tasas[`${this.selectedItem}`]
       },
-      total() {
+      objeTotal() {
       return this.tasas
       },
       // orden() {
@@ -71,9 +68,7 @@
       tasaSelect() {
       this.$store.dispatch('rates/addTasa', `${this.selectedItem}`)
       this.$store.dispatch('rates/addSelec', `${this.datselec}`)
-      
       console.log(this.datselec);
-      // this.selected = []
       }
     }
   }
