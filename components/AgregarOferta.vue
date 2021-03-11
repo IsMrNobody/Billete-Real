@@ -22,7 +22,7 @@
                 <v-select
                   :items="ciudadSelect"
                   v-model="dataBase.ciudad"
-                  :required="valid"
+                  :rules="billetesRules"
                   label="ciudad"
                 ></v-select>
               </v-col>
@@ -63,7 +63,7 @@
                     label="Aceptar"
                   ></v-checkbox>
               </v-col>
-              <v-col class="my-auto" align="center" cols sm="8">
+              <v-col class="my-auto" align="center">
                   <v-btn type="submit" :disabled="!valid" outlined x-large color="yellow">Enviar</v-btn>
               </v-col>
             </v-row>

@@ -10,29 +10,29 @@
     >
         <v-list-item three-line>
           <v-list-item-content>
-              <v-row justify="space-between" class="mx-4">
+              <v-row justify="space-between" class="mr-2 ml-1">
 
                 <!-- icon cantidad de billetes en efectivo -->
                 <v-list-item-icon>
                   <v-tooltip left v-if="item[0].billetes" color="green">
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn
-                      color="green"
-                      x-small
-                      plain
-                      text
-                      v-bind="attrs"
-                      v-on="on"
-                    >
-                      {{ item[0].billetes}}
-                      <v-icon
-                        dark
-                        right
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn
+                        color="green"
+                        x-small
+                        plain
+                        text
+                        v-bind="attrs"
+                        v-on="on"
                       >
-                        mdi-cash-multiple
-                      </v-icon>
-                    </v-btn>
-                  </template>
+                        {{ item[0].billetes}}
+                        <v-icon
+                          dark
+                          right
+                        >
+                          mdi-cash-multiple
+                        </v-icon>
+                      </v-btn>
+                    </template>
                   <span>Nº billetes</span>
                 </v-tooltip>
 
@@ -51,7 +51,7 @@
                   <span>Delivery</span>
                 </v-tooltip>
                 </v-list-item-icon>
-                <v-spacer></v-spacer>
+                <!-- <v-spacer></v-spacer> -->
 
                 <!-- logo de la tasa -->
                 <v-list-item-icon>
@@ -79,21 +79,25 @@
               </v-list-item-title>
               
               <!-- RAITING  -->
-                <v-rating
-                  v-model="rating"
+                <!-- <v-rating
+                  :value="rating"
                   background-color="orange lighten-3"
                   color="orange"
                   small
-                ></v-rating>
-                <span>* Tasa {{ tasas[0].nombre }}: {{ tasas[0].tasa * item[0].amount  }}</span>
-                <span>* Tasa {{ tasas[1].nombre }}: {{ tasas[1].tasa * item[0].amount }}</span>
-              <v-btn
+                ></v-rating> -->
+
+                <!-- tasa * monto a publicado -->
+                <span class="font-weight-thin mb-2">* {{ tasas[0].nombre }}: {{ tasas[0].tasa * item[0].amount  }}</span>
+                <span class="font-weight-thin mb-2">* {{ tasas[1].nombre }}: {{ tasas[1].tasa * item[0].amount }}</span>
+              <!-- <v-btn
                   outlined
                   color="yellow"
-                  @click="removePost(item)"
               >
-                  Comprar
-              </v-btn>
+                  Comprar / Ofertar
+              </v-btn> -->
+              <v-col>
+                <DialogCar />
+              </v-col>
           </v-list-item-content>
         </v-list-item>
     </v-card>
@@ -101,10 +105,14 @@
 </template>
 
 <script>
+import DialogCar from '@/components/DialogCar'
 import firebase from 'firebase/app'
 import { db } from '@/plugins/firebase'
 const datosRef = db.ref('post')
   export default {
+    computed: {
+      DialogCar
+    },
       data: () => ({
           cardState: false,
           rating: 4,
@@ -135,8 +143,8 @@ const datosRef = db.ref('post')
         }
       },
       methods: {
-        removePost(i) {
-          datosRef.child(i['.key']).remove(i)
+        removePost() {
+          // datosRef.child(i['.key']).remove(i)
         },
           removeItem(i) {
             this.$store.dispatch('rates/removePedido', i),
