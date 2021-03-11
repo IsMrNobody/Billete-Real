@@ -3,7 +3,7 @@
     <v-dialog
       v-model="dialog"
       persistent
-      max-width="600px"
+      max-width="300px"
     >
       <template v-slot:activator="{ on, attrs }">
         <v-btn
@@ -13,60 +13,68 @@
           v-bind="attrs"
           v-on="on"
         >
-          Comprar / Ofertar
+          Ofertar
         </v-btn>
       </template>
       <v-card>
         <v-card-title>
-          <span class="headline">User Profile</span>
+          <v-avatar size="28">
+            <img src="/icon.png" alt="">
+          </v-avatar>
+          <span class="headline ml-2">@username</span>
         </v-card-title>
         <v-card-text>
-          <v-container>
-            <v-row>
-              <v-col cols sm="3">
-                <v-select
-                  :items="tasas"
-                  label="Moneda"
-                ></v-select>
-              </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-                md="4"
-              >
-                <v-text-field
-                  label="Monto"
-                  hint="monto"
-                ></v-text-field>
-              </v-col>
-              <v-col cols>
-                <v-text-field
-                  label="Banco"
-                  required
-                ></v-text-field>
-              </v-col>
-              <!-- <v-col
-                cols="12"
-                sm="6"
-              >
-                <v-autocomplete
-                  :items="['Skiing', 'Ice hockey', 'Soccer', 'Basketball', 'Hockey', 'Reading', 'Writing', 'Coding', 'Basejump']"
-                  label="Interests"
-                  multiple
-                ></v-autocomplete>
-              </v-col> -->
-            </v-row>
-          </v-container>
-          <small>*indicates required field</small>
+          <v-row
+            align="center"
+            class="mx-0"
+          >
+            <v-rating
+              :value="4.5"
+              color="amber"
+              dense
+              half-increments
+              readonly
+              size="14"
+            ></v-rating>
+
+            <div class="grey--text ml-4">
+              4.5 (41)Ofertas
+            </div>
+          </v-row>
+
+          <div class="subtitle-2 mt-4">
+            <span>10 $ - Anaco</span>
+            <span>$ • {{ tasas[0].tasa }}</span>
+          </div>
+
+          <!-- <div>Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.</div> -->
+        </v-card-text>
+        <v-divider class="mx-4"></v-divider>
+
+        <v-card-title>Tasas a ofertar</v-card-title>
+
+        <v-card-text>
+          <v-chip-group
+            v-model="selection"
+            active-class="teal darken-4 white--text"
+            column
+          >
+            <v-chip @click="datos">{{ tasas[0].nombre }}</v-chip>
+            <v-chip>{{ tasas[1].nombre }}</v-chip>
+
+          </v-chip-group>
+          <div class="subtitle-1 green--text">
+            $ • {{ tasas[0].tasa }}
+          </div>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
-            color="blue darken-1"
-            text
+            outlined
+            color="yellow"
             @click="dialog = false"
           >
-            Ofertar
+            Enviar
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -78,7 +86,26 @@
   export default {
     data: () => ({
       dialog: false,
-      tasas: ['dolar', 'btc']
+      selection: '',
     }),
+    created() {
+      console.log(this.dat);
+    },
+    computed: {
+      tasas() {
+        return this.$store.state.rates.tasas
+      },
+      dataPedidos() {
+          return this.$store.state.pedidos.pedidos
+      },
+      dat() {
+        return this.$store.state.rates.data
+        },
+    },
+    methods: {
+      datos() {
+        console.log(this.dataPedidos);
+      }
+    }
   }
 </script>

@@ -80,7 +80,7 @@
               
               <!-- RAITING  -->
                 <!-- <v-rating
-                  :value="rating"
+                  :value="4.5"
                   background-color="orange lighten-3"
                   color="orange"
                   small
@@ -89,12 +89,6 @@
                 <!-- tasa * monto a publicado -->
                 <span class="font-weight-thin mb-2">* {{ tasas[0].nombre }}: {{ tasas[0].tasa * item[0].amount  }}</span>
                 <span class="font-weight-thin mb-2">* {{ tasas[1].nombre }}: {{ tasas[1].tasa * item[0].amount }}</span>
-              <!-- <v-btn
-                  outlined
-                  color="yellow"
-              >
-                  Comprar / Ofertar
-              </v-btn> -->
               <v-col>
                 <DialogCar />
               </v-col>
@@ -123,7 +117,7 @@ const datosRef = db.ref('post')
             const data = snapshot.val();
             this.$store.dispatch('pedidos/sendRef', data)
           });
-          console.log(this.pedidos);
+          // console.log(this.pedidos);
       },
        firebase: {
         post: datosRef
@@ -132,9 +126,9 @@ const datosRef = db.ref('post')
         datos() {
         return this.$store.state.rates.data
         },
-        datosOrder(i) {
-          return this.datos.slice(i).reverse(i)
-        },
+        // datosOrder(i) {
+        //   return this.datos.slice(i).reverse(i)
+        // },
         tasas() {
         return this.$store.state.rates.tasas
         },
