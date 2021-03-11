@@ -10,7 +10,7 @@
     >
         <v-list-item three-line>
           <v-list-item-content>
-              <v-row justify="space-between" class="mr-2 ml-1">
+              <v-row justify="space-between" class="mr-4 ml-1">
 
                 <!-- icon cantidad de billetes en efectivo -->
                 <v-list-item-icon>
