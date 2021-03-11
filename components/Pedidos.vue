@@ -10,7 +10,7 @@
     >
         <v-list-item three-line>
           <v-list-item-content>
-              <v-row justify="space-between" class="mr-4 ml-1">
+              <v-row justify="space-between" class="pr-4 ml-1">
 
                 <!-- icon cantidad de billetes en efectivo -->
                 <v-list-item-icon>
@@ -54,7 +54,7 @@
                 <!-- <v-spacer></v-spacer> -->
 
                 <!-- logo de la tasa -->
-                <v-list-item-icon>
+                <v-list-item-icon class="mr-3">
                   <v-tooltip right v-if="item[1]" color="blue">
                   <template v-slot:activator="{ on, attrs }">
                     <v-img
