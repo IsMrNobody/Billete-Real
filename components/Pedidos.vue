@@ -3,11 +3,12 @@
     <v-card
         v-for="(item, i) in pedidos"
         :key="i"
-        class="mx-auto ma-4 text-center"
-         :class="{'green' : cardState}"
+        class="my-5 bg"
+        :class="{'green' : cardState}"
         max-width="344"
         outlined
     >
+        <div class="bl"></div>
         <v-list-item three-line>
           <v-list-item-content>
               <v-row justify="space-between" class="pr-4 ml-1">
@@ -71,10 +72,10 @@
               </v-row>
 
               <!-- Monto y ciudad -->
-              <v-list-item-subtitle class="headline mb-1 green--text">
+              <v-list-item-subtitle class="headline green--text">
                 {{ item[0].amount }} $ {{ item[0].coins }}
               </v-list-item-subtitle>
-              <v-list-item-title class="headline mb-1">
+              <v-list-item-title class="headline">
                 {{ item[0].ciudad }}
               </v-list-item-title>
               
@@ -87,10 +88,10 @@
                 ></v-rating> -->
 
                 <!-- tasa * monto a publicado -->
-                <span class="font-weight-thin mb-2">* {{ tasas[0].nombre }}: {{ tasas[0].tasa * item[0].amount  }}</span>
-                <span class="font-weight-thin mb-2">* {{ tasas[1].nombre }}: {{ tasas[1].tasa * item[0].amount }}</span>
+                <!-- <span class="font-weight-thin mb-2">* {{ tasas[0].nombre }}: {{ tasas[0].tasa * item[0].amount  }}</span> -->
+                <!-- <span class="font-weight-thin mb-2">* {{ tasas[1].nombre }}: {{ tasas[1].tasa * item[0].amount }}</span> -->
               <v-col>
-                <DialogCar />
+                <DialogCar :pedidos="item" />
               </v-col>
           </v-list-item-content>
         </v-list-item>
@@ -137,9 +138,6 @@ const datosRef = db.ref('post')
         }
       },
       methods: {
-        removePost() {
-          // datosRef.child(i['.key']).remove(i)
-        },
           removeItem(i) {
             this.$store.dispatch('rates/removePedido', i),
             console.log(this.datos);
@@ -148,3 +146,20 @@ const datosRef = db.ref('post')
       }
 }
 </script>
+
+<style lang="scss" scoped>
+.bg {
+  // background-color: rgba(1, 12, 5, 0.4);
+  background: linear-gradient(to top right, #031603 20%, #19310e,);
+  // border: solid rgb(99, 255, 99) 0.4px;
+}
+.bl {
+  // border: solid black 0.4px;
+  background-color: rgb(18, 22, 13);
+  border-radius: 20px;
+  position: absolute;
+  padding-left: 240px;
+  height: 46px;
+  width: 100%;
+}
+</style>

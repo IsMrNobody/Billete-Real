@@ -1,5 +1,5 @@
 <template>
-  <v-row justify="center">
+  <v-row justify="end">
     <v-dialog
       v-model="dialog"
       persistent
@@ -9,7 +9,9 @@
         <v-btn
           outlined
           color="yellow"
+          small
           dark
+          @click="monto"
           v-bind="attrs"
           v-on="on"
         >
@@ -29,7 +31,7 @@
             class="mx-0"
           >
             <v-rating
-              :value="4.5"
+              :value="3.5"
               color="amber"
               dense
               half-increments
@@ -38,13 +40,13 @@
             ></v-rating>
 
             <div class="grey--text ml-4">
-              4.5 (41)Ofertas
+              3.5 (41)Ofertas
             </div>
           </v-row>
 
           <div class="subtitle-2 mt-4">
-            <span>10 $ - Anaco</span>
-            <span>$ • {{ tasas[0].tasa }}</span>
+            <span>{{ pedidos[0].amount}} $ - {{ pedidos[0].ciudad }}</span>
+            <span>• {{ pedidos[1].nombre }}</span>
           </div>
 
           <!-- <div>Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.</div> -->
@@ -56,19 +58,26 @@
         <v-card-text>
           <v-chip-group
             v-model="selection"
+            mandatory
             active-class="teal darken-4 white--text"
             column
           >
-            <v-chip @click="datos">{{ tasas[0].nombre }}</v-chip>
-            <v-chip>{{ tasas[1].nombre }}</v-chip>
+            <v-chip
+              v-for="(item, i) in tasas"
+              :key="i"
+              @click="tasaMul"
+            >
+              {{ item.nombre }}
+            </v-chip>
 
           </v-chip-group>
           <div class="subtitle-1 green--text">
-            $ • {{ tasas[0].tasa }}
+            $ • {{ tasaid.tasa }}
           </div>
+          <span>Total > {{ pedidos[0].amount * tasaid.tasa }} </span>
         </v-card-text>
         <v-card-actions>
-          <v-spacer></v-spacer>
+          <!-- <v-spacer></v-spacer> -->
           <v-btn
             outlined
             color="yellow"
@@ -84,27 +93,37 @@
 
 <script>
   export default {
+    props: {
+      pedidos: {
+        type: Array,
+        default: () => ({})
+      }
+    },
     data: () => ({
       dialog: false,
-      selection: '',
+      selection: 0,
     }),
-    created() {
-      console.log(this.dat);
-    },
+    // created() {
+    //   console.log(this.dataPedidos);
+    // },
     computed: {
       tasas() {
         return this.$store.state.rates.tasas
       },
-      dataPedidos() {
-          return this.$store.state.pedidos.pedidos
-      },
-      dat() {
-        return this.$store.state.rates.data
-        },
+      tasaid() {
+        return this.tasas[this.selection]
+      }
+      // pediTasa() {
+      //   return this.tasaid * 
+      // },
     },
     methods: {
-      datos() {
-        console.log(this.dataPedidos);
+      tasaMul() {
+        // const tasa = this.multiTasa * 
+        console.log(this.tasaid);
+      },
+      monto() {
+        console.log(this.pedidos);
       }
     }
   }
