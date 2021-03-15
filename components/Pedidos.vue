@@ -3,7 +3,7 @@
     <v-card
         v-for="(item, i) in pedidos"
         :key="i"
-        class="my-5 bg"
+        class="my-5 bg mx-auto"
         :class="{'green' : cardState}"
         max-width="344"
         outlined
@@ -79,17 +79,6 @@
                 {{ item[0].ciudad }}
               </v-list-item-title>
               
-              <!-- RAITING  -->
-                <!-- <v-rating
-                  :value="4.5"
-                  background-color="orange lighten-3"
-                  color="orange"
-                  small
-                ></v-rating> -->
-
-                <!-- tasa * monto a publicado -->
-                <!-- <span class="font-weight-thin mb-2">* {{ tasas[0].nombre }}: {{ tasas[0].tasa * item[0].amount  }}</span> -->
-                <!-- <span class="font-weight-thin mb-2">* {{ tasas[1].nombre }}: {{ tasas[1].tasa * item[0].amount }}</span> -->
               <v-col>
                 <DialogCar :pedidos="item" />
               </v-col>

@@ -20,10 +20,10 @@
       </template>
       <v-card>
         <v-card-title>
-          <v-avatar size="28">
+          <!-- <v-avatar size="28">
             <img src="/icon.png" alt="">
-          </v-avatar>
-          <span class="headline ml-2">@username</span>
+          </v-avatar> -->
+          <span class="headline">@username</span>
         </v-card-title>
         <v-card-text>
           <v-row
@@ -40,7 +40,7 @@
             ></v-rating>
 
             <div class="grey--text ml-4">
-              3.5 (41)Ofertas
+              3.5 ({{ counter }})Ofertas
             </div>
           </v-row>
 
@@ -74,14 +74,21 @@
           <div class="subtitle-1 green--text">
             $ • {{ tasaid.tasa }}
           </div>
-          <span>Total > {{ pedidos[0].amount * tasaid.tasa }} </span>
+          <span>Total > {{ multipli }} </span>
         </v-card-text>
         <v-card-actions>
-          <!-- <v-spacer></v-spacer> -->
+          <v-btn
+            text
+            color="grey"
+            @click="dialog = false"
+          >
+            Cerrar
+          </v-btn>
+          <v-spacer></v-spacer>
           <v-btn
             outlined
             color="yellow"
-            @click="dialog = false"
+            @click="sendOferta"
           >
             Enviar
           </v-btn>
@@ -102,29 +109,42 @@
     data: () => ({
       dialog: false,
       selection: 0,
+      counter: 0
     }),
-    // created() {
-    //   console.log(this.dataPedidos);
-    // },
     computed: {
       tasas() {
         return this.$store.state.rates.tasas
       },
       tasaid() {
         return this.tasas[this.selection]
-      }
-      // pediTasa() {
-      //   return this.tasaid * 
-      // },
+      },
+      multipli() {
+        const mul = this.pedidos[0].amount * this.tasaid.tasa
+        return mul
+      },
+      info() {
+        return this.$store.state.pedidos.order
+      } 
     },
     methods: {
       tasaMul() {
-        // const tasa = this.multiTasa * 
-        console.log(this.tasaid);
+        console.log(this.multipli, this.tasaid);
       },
       monto() {
         console.log(this.pedidos);
+      },
+      sendOferta() {
+        this.counter ++
+        const data = {
+          tasaMul: this.multipli,
+          tasaId: this.tasaid,
+          pedido: this.pedidos,
       }
+      this.$store.dispatch('pedidos/setOfer', data)
+      this.$router.push('/Perfil')
+      console.log(this.info)
+        // this.dialog = false
     }
   }
+}
 </script>
