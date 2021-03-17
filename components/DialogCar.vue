@@ -99,6 +99,7 @@
 </template>
 
 <script>
+  import _ from 'lodash'
   import { db } from '@/plugins/firebase'
   const datosRef = db.ref('orderHistory')
   
@@ -135,7 +136,10 @@
         const data = {
           tasaMul: this.multipli,
           tasaId: this.tasaid,
-          ...this.pedidos
+          ...this.pedidos,
+          cancel:  false,
+          check: false,
+          confirm: false
         }
         return data
       }

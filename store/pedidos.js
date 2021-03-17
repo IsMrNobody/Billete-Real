@@ -1,7 +1,9 @@
+import _ from 'lodash'
+
 export const state = () => ({
     pedidos: {},
     order: [],
-    history: ''
+    history: []
 })
 
 export const mutations = {

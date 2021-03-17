@@ -22,7 +22,7 @@
               color="white"
               icon
             >
-              <v-icon>mdi-dots-vertical</v-icon>
+              <v-icon color="red">mdi-dots-vertical</v-icon>
             </v-btn>
           </v-app-bar>
 
@@ -52,16 +52,45 @@
             <v-timeline-item
               v-for="(info, i) in pedidos"
               :key="i"
+              color="transparent"
               small
             >
+              <v-img width="20" :src="info[1].icon" class="pos"></v-img>
               <div>
-                <div class="font-weight-normal">
+                <div class="font-weight-normal ml-3">
                   <strong class="orange--text"> {{ info[0].amount }} $ </strong>
-                    {{ info[0].coins }} - {{ info[1].nombre }} -  @usuario
+                    - {{ info[0].coins }} -
+                  <strong class="green--text" v-if="(!info.cancel && !info.confirm)"> Loading... > </strong>
+                    <!-- CANCEL -->
+                    <v-icon
+                      class="ml-2"
+                      color="orange"
+                      @click="cancel(i)"
+                      v-if="(!info.cancel && !info.confirm)"
+                    >
+                      mdi-alpha-x-circle-outline
+                    </v-icon>
+                    <!-- CHECK -->
+                    <v-icon
+                      class="ml-2"
+                      color="green"
+                      v-show="info.confirm"
+                    >
+                      mdi-shield-check-outline
+                    </v-icon>
+                    <!-- ELIMINAR -->
+                    <v-icon
+                    color="red"
+                    @click="remove(i)"
+                    v-if="(info.cancel)"
+                    >
+                      mdi-trash-can
+                    </v-icon>
                 </div>
-                <div>
+                <div class="ml-3">
                   <span class="green--text">Monto: </span>
-                  {{ info.tasaMul }} $</div>
+                  {{ info.tasaMul }} $
+                </div>
               </div>
             </v-timeline-item>
           </v-timeline>
@@ -72,12 +101,15 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import firebase from 'firebase/app'
 import { db } from '@/plugins/firebase'
 const datosRef = db.ref('orderHistory')
 
   export default {
-    data: () => ({}),
+    data: () => ({
+      estado: 'En proceso'
+    }),
     created() {
       const starCountRef = firebase.database().ref(datosRef);
         starCountRef.on('value', (snapshot) => {
@@ -85,7 +117,6 @@ const datosRef = db.ref('orderHistory')
           // updateStarCount(postElement, data);
           this.$store.dispatch('pedidos/orderHistory', data)
       });
-        console.log(this.pedidos);
     },
     firebase: {
       post: datosRef
@@ -96,16 +127,28 @@ const datosRef = db.ref('orderHistory')
     //   },
       pedidos() {
         return this.$store.state.pedidos.history
-      },
-      datapedido() {
-        const data = [...this.pedidos]
-        return data
-      }
+    }
     },
     methods: {
         play() {
             console.log(this.pedidos);
+        },
+        remove(key) {
+          datosRef.child(key).remove()
+        },
+        cancel(key) {
+          // console.log(this.pedidos);
+          datosRef.child(key).update({ cancel: true })
         }
     }
 }
 </script>
+
+<style scoped>
+.pos {
+  position: absolute;
+  margin-left: -58px;
+  margin-top: 2px;
+  z-index: 20;
+}
+</style>
