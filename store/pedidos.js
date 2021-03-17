@@ -1,6 +1,7 @@
 export const state = () => ({
-    pedidos: [],
-    order: []
+    pedidos: {},
+    order: [],
+    history: ''
 })
 
 export const mutations = {
@@ -9,6 +10,9 @@ export const mutations = {
     },
     setOfer(state, order) {
         state.order = order
+    },
+    setOrder(state, data) {
+        state.history = data
     }
 }
 
@@ -18,5 +22,8 @@ export const actions = {
     },
     setOfer({ commit }, order) {
         commit('setOfer', order)
+    },
+    orderHistory({ commit }, data) {
+        commit('setOrder', data)
     }
 }

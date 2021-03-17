@@ -99,12 +99,18 @@
 </template>
 
 <script>
+  import { db } from '@/plugins/firebase'
+  const datosRef = db.ref('orderHistory')
+  
   export default {
     props: {
       pedidos: {
         type: Array,
         default: () => ({})
       }
+    },
+    firebase: {
+      order: datosRef
     },
     data: () => ({
       dialog: false,
@@ -124,7 +130,15 @@
       },
       info() {
         return this.$store.state.pedidos.order
-      } 
+      },
+      datos() {
+        const data = {
+          tasaMul: this.multipli,
+          tasaId: this.tasaid,
+          ...this.pedidos
+        }
+        return data
+      }
     },
     methods: {
       tasaMul() {
@@ -135,12 +149,8 @@
       },
       sendOferta() {
         this.counter ++
-        const data = {
-          tasaMul: this.multipli,
-          tasaId: this.tasaid,
-          pedido: this.pedidos,
-      }
-      this.$store.dispatch('pedidos/setOfer', data)
+      datosRef.push(this.datos)
+      // this.$store.dispatch('pedidos/setOfer', data)
       this.$router.push('/Perfil')
       console.log(this.info)
         // this.dialog = false

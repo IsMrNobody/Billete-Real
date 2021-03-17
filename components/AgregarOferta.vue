@@ -138,18 +138,22 @@ import Lista from '~/components/Lista.vue'
     methods: {
       // data enviada a firebase >>>
         addPost() {
-          datosRef.push([this.dataBase, this.datselec, this.switch1])
-            Swal.fire({
-              position: 'top',
-              icon: 'success',
-              iconColor: 'orange',
-              title: 'billete publicado',
-              showConfirmButton: false,
-              toast: true,
-              background: '#171819',
-              timer: 1500,
-            })
-          console.log(this.pedidos);
+          try {
+            datosRef.push([this.dataBase, this.datselec, this.switch1])
+              Swal.fire({
+                position: 'top',
+                icon: 'success',
+                iconColor: 'orange',
+                title: 'billete publicado',
+                showConfirmButton: false,
+                toast: true,
+                background: '#171819',
+                timer: 1500,
+              })
+          } catch (error) {
+               console.log(error.message); 
+          }
+          console.log(this.datosRef);
           this.dataBase.billetes = '',
           this.dataBase.coins = '',
           this.dataBase.amount = '',
