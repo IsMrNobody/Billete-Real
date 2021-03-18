@@ -55,41 +55,99 @@
               color="transparent"
               small
             >
-              <v-img width="20" :src="info[1].icon" class="pos"></v-img>
+              <v-tooltip
+                top
+                color="orange"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    icon
+                    x-small
+                    v-bind="attrs"
+                    v-on="on"
+                    class="pos"
+                  >
+                    <!-- <v-icon color="grey lighten-1">
+                      mdi-cart
+                    </v-icon> -->
+                    <v-img width="20" :src="info[1].icon" class=""></v-img>
+                  </v-btn>
+                </template>
+                <span>{{ info[1].nombre }}</span>
+              </v-tooltip>
               <div>
                 <div class="font-weight-normal ml-3">
-                  <strong class="orange--text"> {{ info[0].amount }} $ </strong>
+                  <strong class="orange--text">
+                    {{ info[0].amount }} $ </strong>
                     - {{ info[0].coins }} -
-                  <strong class="green--text" v-if="(!info.cancel && !info.confirm)"> Loading... > </strong>
+                  <strong
+                    class="blue--text"
+                    v-if="(!info.cancel && !info.confirm)"
+                  >
+                    Esperando...
+                  </strong>
                     <!-- CANCEL -->
-                    <v-icon
-                      class="ml-2"
-                      color="orange"
-                      @click="cancel(i)"
-                      v-if="(!info.cancel && !info.confirm)"
+                    <v-tooltip
+                      top
+                      color="blue"
                     >
-                      mdi-alpha-x-circle-outline
-                    </v-icon>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-icon
+                          @click="cancel(i)"
+                          v-if="(!info.cancel && !info.confirm)"
+                          v-bind="attrs"
+                          v-on="on"
+                          color="blue lighten-1">
+                          mdi-alpha-x-circle-outline
+                        </v-icon>
+                      </template>
+                      <span>Cancelar</span>
+                    </v-tooltip>
                     <!-- CHECK -->
-                    <v-icon
-                      class="ml-2"
+                    <v-tooltip
+                      right
                       color="green"
-                      v-show="info.confirm"
                     >
-                      mdi-shield-check-outline
-                    </v-icon>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-icon 
+                          v-show="info.confirm"
+                          v-bind="attrs"
+                          v-on="on"
+                          color="green lighten-1">
+                          mdi-shield-check-outline
+                        </v-icon>
+                      </template>
+                      <span>Aceptada</span>
+                    </v-tooltip>
                     <!-- ELIMINAR -->
-                    <v-icon
+                    <v-tooltip
+                      right
+                      color="red"
+                    >
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-icon 
+                          v-if="(info.cancel)"
+                          v-bind="attrs"
+                          v-on="on"
+                          @click="remove(i)"
+                          color="red">
+                          mdi-trash-can
+                        </v-icon>
+                      </template>
+                      <span class="text-caption">Eliminar</span>
+                    </v-tooltip>
+                    <!-- <v-icon
                     color="red"
                     @click="remove(i)"
                     v-if="(info.cancel)"
                     >
                       mdi-trash-can
-                    </v-icon>
+                    </v-icon> -->
                 </div>
                 <div class="ml-3">
-                  <span class="green--text">Monto: </span>
-                  {{ info.tasaMul }} $
+                  <span class="orange--text">Total: </span>
+                  {{ info.tasaMul }} VES
+                  <span>{{ info.date }}</span>
                 </div>
               </div>
             </v-timeline-item>
