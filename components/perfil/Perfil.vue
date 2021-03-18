@@ -121,12 +121,12 @@
                     </v-tooltip>
                     <!-- ELIMINAR -->
                     <v-tooltip
+                      v-if="info.cancel"
                       right
                       color="red"
                     >
                       <template v-slot:activator="{ on, attrs }">
                         <v-icon 
-                          v-if="(info.cancel)"
                           v-bind="attrs"
                           v-on="on"
                           @click="remove(i)"
@@ -162,7 +162,7 @@
 import _ from 'lodash'
 import firebase from 'firebase/app'
 import { db } from '@/plugins/firebase'
-const datosRef = db.ref('orderHistory')
+const datosRef = db.ref('orderHistory', 'usuarios')
 
   export default {
     data: () => ({

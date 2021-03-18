@@ -70,6 +70,9 @@
                 </v-tooltip>
                 </v-list-item-icon>
               </v-row>
+              <div class="text-center">
+                <v-icon text x-small color="red" @click="removeItem(i)">Eliminar</v-icon>
+              </div>
 
               <!-- Monto y ciudad -->
               <v-list-item-subtitle class="headline green--text">
@@ -77,6 +80,7 @@
               </v-list-item-subtitle>
               <v-list-item-title class="headline">
                 {{ item[0].ciudad }}
+                <!-- <v-btn fab x-small icon color="red" @click="removeItem(i)">X</v-btn> -->
               </v-list-item-title>
               
               <v-col>
@@ -127,11 +131,9 @@ const datosRef = db.ref('post')
         }
       },
       methods: {
-          removeItem(i) {
-            this.$store.dispatch('rates/removePedido', i),
-            console.log(this.datos);
-            console.log(this.datosIcon);
-        }
+          removeItem(key) {
+            datosRef.child(key).remove()
+        },
       }
 }
 </script>

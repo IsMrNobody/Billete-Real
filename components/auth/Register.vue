@@ -14,7 +14,7 @@
               <v-row>
                 <v-col>
                   <v-text-field
-                    v-model="nombre"
+                    v-model="datosUser.nombre"
                     label="Nombre"
                     type="text"
                     filled
@@ -25,7 +25,7 @@
                     clearable
                   />
                   <v-text-field
-                    v-model="email"
+                    v-model="datosUser.email"
                     label="Email"
                     type="email"
                     filled
@@ -36,7 +36,7 @@
                     required
                   />
                   <v-text-field
-                    v-model="telefono"
+                    v-model="datosUser.telefono"
                     label="Telefono"
                     type="text"
                     filled
@@ -47,7 +47,7 @@
                     clearable
                   />
                    <v-text-field
-                    v-model="ciudad"
+                    v-model="datosUser.ciudad"
                     label="Ciudad"
                     type="text"
                     filled
@@ -58,7 +58,7 @@
                     clearable
                   />
                   <v-text-field
-                    v-model="password"
+                    v-model="datosUser.password"
                     label="Clave"
                     type="password"
                     filled
@@ -76,14 +76,15 @@
           <small>Todos los campos son requeridos para ingresar</small>
         </v-card-text>
         <v-card-actions>
-          <!-- <v-spacer></v-spacer> -->
           <v-btn
             type="submit"
-            color="red"
+            color="orange"
+            class="mx-auto"
             text
             ripple
             @click.exact="registrar"
-            ><v-icon left>mdi-silverware</v-icon>
+            >
+          <!-- <v-icon left>mdi-silverware</v-icon> -->
             Registrar
           </v-btn>
         </v-card-actions>
@@ -95,33 +96,44 @@
 <script>
 import firebase from 'firebase/app'
 import 'firebase/auth'
+import { db } from '@/plugins/firebase'
+const datosRef = db.ref('usuarios')
 export default {
   data: () => ({
     dialog: false,
     valid: false,
+    datosUser: {
+      ciudad: '',
+      telefono: '',
+      nombre: '',
+      email: '',
+    },
     password: '',
-    email: '',
-    ciudad: '',
-    telefono: '',
-    nombre: '',
     emailRules: [
       (v) => !!v || 'El email es necesario para enviar una remesa',
       (v) => /.+@.+/.test(v) || 'El email debe ser valido'
     ]
   }),
+  firebase: {
+    post: datosRef
+  },
   methods: {
     registrar() {
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(this.email, this.password)
-        .then(user => {
-        this.email = '',
-        this.password = ''
-        this.$router.push('/')
-        console.log(user);
-        })
-        .catch(error => (this.error = error))
+      try {
+        firebase
+          .auth()
+          .createUserWithEmailAndPassword(this.datosUser.email, this.password)
+          .then(user => {
+          datosRef.push(this.datosUser)
+          this.email = '',
+          this.password = ''
+          this.$router.push('/')
+          console.log(user);
+          })
+      } catch (error) {
+        error => (this.error = error)
       }
+    }
   }
 }
 </script>
