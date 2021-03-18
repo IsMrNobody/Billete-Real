@@ -11,7 +11,6 @@
             color="rgba(0, 0, 0, 0)"
           >
             <!-- <v-app-bar-nav-icon color="white"></v-app-bar-nav-icon>
-
             <v-toolbar-title class="title white--text pl-0">
               Messages
             </v-toolbar-title> -->
@@ -70,15 +69,15 @@
                     <!-- <v-icon color="grey lighten-1">
                       mdi-cart
                     </v-icon> -->
-                    <v-img width="20" :src="info[1].icon" class=""></v-img>
+                    <v-img width="20" :src="info.icon" class=""></v-img>
                   </v-btn>
                 </template>
-                <span>{{ info[1].nombre }}</span>
+                <span>{{ info.nombre }}</span>
               </v-tooltip>
               <div>
                 <div class="font-weight-normal ml-3">
                   <strong class="orange--text">
-                    {{ info[0].amount }} $ </strong>
+                    {{ info.monto }} $ </strong>
                     - {{ info[0].coins }} -
                   <strong
                     class="blue--text"
@@ -162,8 +161,7 @@
 import _ from 'lodash'
 import firebase from 'firebase/app'
 import { db } from '@/plugins/firebase'
-const datosRef = db.ref('orderHistory', 'usuarios')
-
+const datosRef = db.ref('orderHistory')
   export default {
     data: () => ({
       estado: 'En proceso'

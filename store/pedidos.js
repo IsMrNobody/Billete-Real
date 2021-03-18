@@ -1,7 +1,7 @@
 import _ from 'lodash'
 
 export const state = () => ({
-    pedidos: {},
+    pedidos: null,
     order: [],
     history: []
 })

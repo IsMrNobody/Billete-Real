@@ -119,6 +119,12 @@
       counter: 0
     }),
     computed: {
+      pedidoReal() {
+        const data = {
+          monto: this.pedidos[0].amount
+        }
+        return data
+      },
       tasas() {
         return this.$store.state.rates.tasas
       },
@@ -135,8 +141,9 @@
       datos() {
         const data = {
           tasaMul: this.multipli,
-          tasaId: this.tasaid,
+          ...this.tasaid,
           ...this.pedidos,
+          ...this.pedidoReal,
           cancel:  false,
           check: false,
           confirm: false,
