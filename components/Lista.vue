@@ -14,7 +14,7 @@
         <v-list-item
           v-for="(item, i) in tasas"
           :key="i"
-          @click="tasaSelect()"
+          @click="tasaSelect(i)"
         >
           <v-list-item-icon>
             <v-img width="10" :src="item.icon"></v-img>
@@ -65,10 +65,10 @@
       }
     },
     methods: {
-      tasaSelect() {
-      this.$store.dispatch('rates/addTasa', `${this.selectedItem}`)
+      tasaSelect(i) {
+      this.$store.dispatch('rates/addTasa', `${this.selectedItem[i]}`)
       this.$store.dispatch('rates/addSelec', `${this.datselec}`)
-      console.log(this.datselec);
+      console.log(this.selectedItem);
       }
     }
   }

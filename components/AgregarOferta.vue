@@ -60,7 +60,7 @@
                     v-model="valid"
                     :required="valid"
                     :rules="[v => !!v || 'Aceptar condiciones!']"
-                    label="Aceptar"
+                    label="Todos los campos son requeridos"
                   ></v-checkbox>
               </v-col>
               <v-col class="my-auto" align="center">

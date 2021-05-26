@@ -12,7 +12,7 @@
 
 <script>
 // import Lista from '~/components/Lista.vue'
-import Pedidos from '@/components/Pedidos'
+import Pedidos from '@/components/orders/Pedidos'
 import AgregarOferta from '@/components/AgregarOferta'
 
 export default {
@@ -23,3 +23,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .mapa { 
+    height: 425px;
+  }
+</style>

@@ -70,9 +70,9 @@
                 </v-tooltip>
                 </v-list-item-icon>
               </v-row>
-              <div class="text-center">
+              <!-- <div class="text-center">
                 <v-icon text x-small color="red" @click="removeItem(i)">Eliminar</v-icon>
-              </div>
+              </div> -->
 
               <!-- Monto y ciudad -->
               <v-list-item-subtitle class="headline green--text">

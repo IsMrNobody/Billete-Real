@@ -13,9 +13,13 @@
     "axios": "^0.21.1",
     "core-js": "^3.8.3",
     "firebase": "^8.2.10",
+    "google-maps-api-loader": "^1.1.1",
     "lodash": "^4.17.21",
+    "mapbox-gl": "^2.2.0",
     "nuxt": "^2.14.12",
-    "sweetalert2": "^10.15.5"
+    "sweetalert2": "^10.15.5",
+    "vue-mapbox": "^0.4.1",
+    "vue2-google-maps": "^0.10.7"
   },
   "devDependencies": {
     "@nuxtjs/vuetify": "^1.11.3",
