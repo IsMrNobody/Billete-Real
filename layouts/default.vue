@@ -5,7 +5,7 @@
         <nuxt />
       </v-container>
     </v-main>
-    <v-bottom-navigation
+    <!-- <v-bottom-navigation
     v-model="value"
     background-color="black"
     active-class="red"
@@ -36,7 +36,7 @@
 
       <v-icon>mdi-image</v-icon>
     </v-btn>
-  </v-bottom-navigation>
+  </v-bottom-navigation> -->
   </v-app>
 </template>
 
