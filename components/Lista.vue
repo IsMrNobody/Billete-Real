@@ -44,6 +44,7 @@
     created() {
       this.$store.dispatch('rates/getTasaDeCambio')
       this.$store.dispatch('rates/getTasaDeCambio2')
+      this.$store.dispatch('rates/getTasaDeCambio3')
       this.$store.dispatch('rates/addTasa', `${this.selectedItem}`)
       this.colored
     },

@@ -16,7 +16,7 @@
     "google-maps-api-loader": "^1.1.1",
     "lodash": "^4.17.21",
     "mapbox-gl": "^2.2.0",
-    "nuxt": "^2.14.12",
+    "nuxt": "^2.13.3",
     "sweetalert2": "^10.15.5",
     "vue-mapbox": "^0.4.1",
     "vue2-google-maps": "^0.10.7"
