@@ -1,4 +1,4 @@
-import { traerTasa, traerTasa2, traerTasa3 } from '~/plugins/yadio-api'
+import { traerTasa, traerTasa2, traerTasa3, traerTasa4 } from '~/plugins/yadio-api'
 
 export const state = () => ({
     itemSelect: '',
@@ -8,6 +8,7 @@ export const state = () => ({
     tiposDeMonedas: ['USD', 'BTC'],
     ciudad: ['Anaco', 'Tigre'],
     tasa3: [],
+    tasa4: [],
     tasas: [
         {
             nombre: 'dolartoday',
@@ -31,6 +32,9 @@ export const mutations = {
     },
     setTasaDeCambio3(state, tasa3) {
         state.tasa3 = tasa3
+    },
+    setTasaDeCambio4(state, tasa4) {
+        state.tasa4 = tasa4
     },
     // duda >>> ...state <<<
     addData(state, item) {
@@ -75,6 +79,14 @@ export const actions = {
           const tasa3 = await traerTasa3()
           commit('setTasaDeCambio3', tasa3)
           console.log(tasa3)
+        } catch (error) {
+          error(message)
+        }
+    },
+    async getTasaDeCambio4({ commit }) {
+        try {
+          const tasa4 = await traerTasa4()
+          commit('setTasaDeCambio4', tasa4)
         } catch (error) {
           error(message)
         }
