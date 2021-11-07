@@ -7,6 +7,14 @@
                     <v-text-field @keyup="addMulti4()" v-model="montoDolar" label="token"></v-text-field>
                     <v-text-field @keyup="addMulti3()" v-model="montoToken" label="dolar"></v-text-field>
                     <v-btn @click="buscartoken()">Buscar</v-btn>
+                    <v-btn @click="enviarinfo3()">Enviar</v-btn>
+                </v-col>
+                <v-col class="pl-4" align="center">
+                    <!-- <v-text-field @keyup="clear()" v-model="token" label="buscar"></v-text-field> -->
+                    <v-text-field @keyup="addMulti6()" v-model="valorCompra" label="valor de compra"></v-text-field>
+                    <v-text-field @keyup="addMulti6()" v-model="multitoken" label="token"></v-text-field>
+                    <v-text-field @keyup="addMulti5()" v-model="montoToken" label="dolar"></v-text-field>
+                    <!-- <v-btn @click="buscartoken()">Buscar</v-btn> -->
                     <v-btn @click="enviarinfo2()">Enviar</v-btn>
                 </v-col>
             </v-row>
@@ -52,7 +60,7 @@
                     </v-col>
                     <v-col>
                         <h4>Valor</h4>
-                        <span class="yellow--text">{{coin.current_price.toFixed(4)}} $</span>
+                        <span class="yellow--text">{{coin.current_price}} $</span>
                         <div>
                             <span
                             v-if="token === coin.id && dataRegistrada"
@@ -117,7 +125,9 @@ export default {
         token: 'bitcoin',
         montoToken: null,
         montoDolar: null,
-        tokex: ''
+        tokex: '',
+        valorCompra: '',
+        multitoken: ''
     }),
     computed: {
         tasa4() {
@@ -171,13 +181,33 @@ export default {
         actualizarlista() {
             this.$store.dispatch('rates/getTasaDeCambio3')
         },
-        enviarinfo2() {
+        enviarinfo3() {
             const data = {
                 id: this.tokeinfo.id,
                 name: this.tokeinfo.name,
                 symbol: this.tokeinfo.symbol,
                 current_price: this.tokeinfo.market_data.current_price.usd,
                 montoUSD: this.montoDolar,
+                montoMoneda: this.montoToken
+                }
+            try {
+                datosRefe.push(data)
+                // console.log(data)
+            } catch (error) {
+                console.log(error.message); 
+            }
+            this.buscartoken()
+            this.token = ''
+            this.montoDolar = '',
+            this.montoToken = ''
+        },
+        enviarinfo2() {
+            const data = {
+                id: this.tokeinfo.id,
+                name: this.tokeinfo.name,
+                symbol: this.tokeinfo.symbol,
+                current_price: this.valorCompra,
+                montoUSD: this.multitoken,
                 montoMoneda: this.montoToken
                 }
             try {
@@ -202,6 +232,12 @@ export default {
         },
         addMulti4() {
             this.montoToken = this.montoDolar * this.tokeinfo.market_data.current_price.usd
+        },
+        addMulti5() {
+            this.multitoken = this.montoToken / this.valorCompra
+        },
+        addMulti6() {
+            this.montoToken = this.valorCompra * this.multitoken
         },
         deleted(i) {
             datosRefe.child(i).remove()
