@@ -84,18 +84,22 @@
                     <v-col>
                         <h4>Monto en token</h4>
                         <span class="blue--text"> {{coin.montoUSD}}</span>
+                        <span v-if="token === coin.id && dataRegistrada">{{coin.fecha}}</span>
                         <!-- <span>{{(coins[0].current_price - dataRegistrada.valorDeCompra).toFixed(3)}}</span> -->
                     </v-col>
                     <v-col v-if="token === coin.id && dataRegistrada">
                         <h4>Margen</h4>
-                        <h3>-</h3>
+                        <!-- <span>-</span> -->
                         <!-- <span>{{coins[0].current_price - dataRegistrada.valorDeCompra}}</span> -->
                         <span
                             :class="[multiplo - coin.montoMoneda < 0 ? 'red--text' : 'green--text']">
                             {{(multiplo - coin.montoMoneda).toFixed(4)}} $
                         </span>
+                        <span>{{coin.fecha}}</span>
+                        <span class="blue--text">>> {{coin.buyDay - dataRegistrada.currentDay}}</span>
                     </v-col>
-                    <v-col>
+                    <v-col cols="1">
+                        <!-- <span>{{coin.buyDay - dataRegistrada.currentDay}}</span> -->
                         <v-icon color="red" @click="deleted(i)">mdi-delete</v-icon>
                     </v-col>
                 </v-row>
@@ -155,7 +159,7 @@ export default {
     },
     created() {
         // this.token = 'bitcoin'
-        console.log(this.tasa4)
+        // console.log(this.tasa4)
         this.$store.dispatch('rates/getTasaDeCambio4')
         this.buscartoken()
         this.coins = this.tasa3
@@ -182,8 +186,12 @@ export default {
             this.$store.dispatch('rates/getTasaDeCambio3')
         },
         enviarinfo3() {
+            const fecha = new Date()
             const data = {
                 id: this.tokeinfo.id,
+                date: this.tokeinfo.last_updated,
+                fecha: fecha.toLocaleDateString(),
+                buyDay: fecha.getDate(),
                 name: this.tokeinfo.name,
                 symbol: this.tokeinfo.symbol,
                 current_price: this.tokeinfo.market_data.current_price.usd,
@@ -244,19 +252,22 @@ export default {
         },
         dataBill(i) {
             // this.$store.dispatch('rates/getTasaDeCambio3')
+            const fecha = new Date()
             this.token = ''
             const datos = {
                 name: i.name,
                 montoM: i.montoMoneda,
                 montoUSD: i.montoUSD,
                 valorDeCompra: i.current_price,
-                id: i.id
+                id: i.id,
+                fecha: fecha.toLocaleDateString(),
+                currentDay: fecha.getDate()
             }
             this.dataRegistrada = datos
             this.token = datos.id
             this.buscartoken()
             this.montoTarj = datos.montoUSD
-            // console.log(this.dataRegistrada)
+            console.log(this.tokenSaves)
         }
     }
 }
