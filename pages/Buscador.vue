@@ -17,6 +17,9 @@
                     <!-- <v-btn @click="buscartoken()">Buscar</v-btn> -->
                     <v-btn @click="enviarinfo2()">Enviar</v-btn>
                 </v-col>
+                <v-col>
+                    <v-text-field @keyup="buscarTokin()" v-model="tokenBus" label="buscar"></v-text-field>
+                </v-col>
             </v-row>
             
             <!-- <h2>{{busqueda}}</h2> -->
@@ -46,6 +49,9 @@
                 <v-spacer></v-spacer>
                 <!-- ///////////// -->
                 <v-row v-for="(coin, i) in tokenSaves" :key="i" class="black mt-5" @click="dataBill(coin)">
+                    <v-col cols="1">
+                        <img :src="coin.logo" alt="">
+                    </v-col>
                     <v-col>
                         <h4>{{coin.symbol}}</h4>
                         <h3>{{coin.name}}</h3>
@@ -84,7 +90,7 @@
                     <v-col>
                         <h4>Monto en token</h4>
                         <span class="blue--text"> {{coin.montoUSD}}</span>
-                        <span v-if="token === coin.id && dataRegistrada">{{coin.fecha}}</span>
+                        <p>{{coin.fecha}}</p>
                         <!-- <span>{{(coins[0].current_price - dataRegistrada.valorDeCompra).toFixed(3)}}</span> -->
                     </v-col>
                     <v-col v-if="token === coin.id && dataRegistrada">
@@ -95,8 +101,10 @@
                             :class="[multiplo - coin.montoMoneda < 0 ? 'red--text' : 'green--text']">
                             {{(multiplo - coin.montoMoneda).toFixed(4)}} $
                         </span>
-                        <span>{{coin.fecha}}</span>
-                        <span class="blue--text">>> {{coin.buyDay - dataRegistrada.currentDay}}</span>
+                        <div>
+                          <span>{{dataRegistrada.fecha}}</span>
+                          <span v-show="(coin.buyDay - dataRegistrada.currentDay) > 0" class="blue--text">>> {{coin.buyDay - dataRegistrada.currentDay}}</span>
+                        </div>
                     </v-col>
                     <v-col cols="1">
                         <!-- <span>{{coin.buyDay - dataRegistrada.currentDay}}</span> -->
@@ -131,7 +139,8 @@ export default {
         montoDolar: null,
         tokex: '',
         valorCompra: '',
-        multitoken: ''
+        multitoken: '',
+        tokenBus: []
     }),
     computed: {
         tasa4() {
@@ -172,6 +181,9 @@ export default {
           });
     },
     methods: {
+        buscarTokin() {
+            this.tokenBus = this.tokenSaves.filter(coin => coin.name.includes(this.tokenBus))
+        },
         clear() {
             this.montoDolar = '',
             this.montoToken = ''
@@ -192,6 +204,7 @@ export default {
                 date: this.tokeinfo.last_updated,
                 fecha: fecha.toLocaleDateString(),
                 buyDay: fecha.getDate(),
+                logo: this.tokeinfo.image.small,
                 name: this.tokeinfo.name,
                 symbol: this.tokeinfo.symbol,
                 current_price: this.tokeinfo.market_data.current_price.usd,
@@ -210,9 +223,13 @@ export default {
             this.montoToken = ''
         },
         enviarinfo2() {
+            const fecha = new Date()
             const data = {
+                fecha: fecha.toLocaleDateString(),
+                buyDay: fecha.getDate(),
                 id: this.tokeinfo.id,
                 name: this.tokeinfo.name,
+                logo: this.tokeinfo.image.small,
                 symbol: this.tokeinfo.symbol,
                 current_price: this.valorCompra,
                 montoUSD: this.multitoken,
