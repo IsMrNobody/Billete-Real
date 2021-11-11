@@ -2,38 +2,16 @@
     <div>
         <v-container>
             <v-row>
-                <v-col class="pl-4" align="center">
-                    <v-text-field @keyup="clear()" v-model="token" label="buscar"></v-text-field>
-                    <v-text-field @keyup="addMulti4()" v-model="montoDolar" label="token"></v-text-field>
-                    <v-text-field @keyup="addMulti3()" v-model="montoToken" label="dolar"></v-text-field>
-                    <v-btn @click="buscartoken()">Buscar</v-btn>
-                    <v-btn @click="enviarinfo3()">Enviar</v-btn>
-                </v-col>
-                <v-col class="pl-4" align="center">
-                    <!-- <v-text-field @keyup="clear()" v-model="token" label="buscar"></v-text-field> -->
-                    <v-text-field @keyup="addMulti6()" v-model="valorCompra" label="valor de compra"></v-text-field>
-                    <v-text-field @keyup="addMulti6()" v-model="multitoken" label="token"></v-text-field>
-                    <v-text-field @keyup="addMulti5()" v-model="montoToken" label="dolar"></v-text-field>
-                    <!-- <v-btn @click="buscartoken()">Buscar</v-btn> -->
-                    <v-btn @click="enviarinfo2()">Enviar</v-btn>
-                </v-col>
-                <v-col>
-                    <v-text-field @keyup="buscarTokin()" v-model="tokenBus" label="buscar"></v-text-field>
-                </v-col>
-            </v-row>
-            
-            <!-- <h2>{{busqueda}}</h2> -->
-            <v-row>
                 <v-col>
                     <v-row class="colorbuscar">
                         <v-container>
                             <v-row class="pa-3" justify="space-around">
                                 <v-col>
-                                    <h3>{{ tokeinfo.name }}</h3>
-                                    <span class="text-uppercase">{{ tokeinfo.symbol }}</span>
+                                    <h3>{{ tokex.name }}</h3>
+                                    <span class="text-uppercase">{{ tokex.symbol }}</span>
                                 </v-col>
                                 <v-col>
-                                    <!-- <span>$ {{montoActual}}</span> -->
+                                    <span>$ {{currentP}}</span>
                                 </v-col>
                                 <v-col>
                                     <!-- <span class="ml-4">$ {{montoActual * montoDolar}}</span> -->
@@ -46,71 +24,105 @@
                     </v-row>
                 </v-col>
             </v-row>
-                <v-spacer></v-spacer>
-                <!-- ///////////// -->
-                <v-row v-for="(coin, i) in tokenSaves" :key="i" class="black mt-5" @click="dataBill(coin)">
-                    <v-col cols="1">
-                        <img :src="coin.logo" alt="">
-                    </v-col>
-                    <v-col>
-                        <h4>{{coin.symbol}}</h4>
-                        <h3>{{coin.name}}</h3>
-                        <div>
-                          <span 
-                            v-if="token === coin.id && dataRegistrada"
-                            :class="[(tokeinfo.market_data.current_price.usd - dataRegistrada.valorDeCompra) < 0 ? 'red--text' : 'green--text']"
-                          >
-                            {{(tokeinfo.market_data.current_price.usd - dataRegistrada.valorDeCompra).toFixed(2)}}
-                          </span>
-                        </div>
-                    </v-col>
-                    <v-col>
-                        <h4>Valor</h4>
-                        <span class="yellow--text">{{coin.current_price}} $</span>
-                        <div>
-                            <span
-                            v-if="token === coin.id && dataRegistrada"
-                                :class="[tokeinfo.market_data.current_price.usd < coin.current_price ? 'red--text' : 'green--text']">
-                                {{ tokeinfo.market_data.current_price.usd }} $
-                            </span>
-                        </div>
-                         <!-- <span>{{Math.floor(coins[0].current_price - dataRegistrada.valorDeCompra)}}</span> -->
-                    </v-col>
-                    <v-col>
-                        <h4>Inversion</h4>
-                        <span class="red--text">$ {{coin.montoMoneda}}</span>
-                        <div>
-                            <span
-                                v-if="token === coin.id && dataRegistrada"
-                                :class="[multiplo < coin.montoMoneda ? 'red--text' : 'green--text']">
-                                $ {{multiplo.toFixed(3)}}
-                            </span>
-                        </div>
-                    </v-col>
-                    <v-col>
-                        <h4>Monto en token</h4>
-                        <span class="blue--text"> {{coin.montoUSD}}</span>
-                        <p>{{coin.fecha}}</p>
-                        <!-- <span>{{(coins[0].current_price - dataRegistrada.valorDeCompra).toFixed(3)}}</span> -->
-                    </v-col>
-                    <v-col v-if="token === coin.id && dataRegistrada">
-                        <h4>Margen</h4>
-                        <!-- <span>-</span> -->
-                        <!-- <span>{{coins[0].current_price - dataRegistrada.valorDeCompra}}</span> -->
-                        <span
-                            :class="[multiplo - coin.montoMoneda < 0 ? 'red--text' : 'green--text']">
-                            {{(multiplo - coin.montoMoneda).toFixed(4)}} $
-                        </span>
-                        <div>
-                          <span>{{dataRegistrada.fecha}}</span>
-                          <span v-show="(coin.buyDay - dataRegistrada.currentDay) > 0" class="blue--text">>> {{coin.buyDay - dataRegistrada.currentDay}}</span>
-                        </div>
-                    </v-col>
-                    <v-col cols="1">
-                        <!-- <span>{{coin.buyDay - dataRegistrada.currentDay}}</span> -->
-                        <v-icon color="red" @click="deleted(i)">mdi-delete</v-icon>
+            <v-row>
+                <v-col>
+                    <v-row>
+                        <v-col align="center">
+                            <v-text-field
+                                :append-icon="'mdi-fire'"
+                                @click:append-outer="buscartoken()"
+                                outlined
+                                @keyup.enter="buscartoken()" v-model="token" label="buscar">
+                            </v-text-field>
+                            <!-- <v-text-field @keyup="clear()" v-model="token" label="buscar"></v-text-field> -->
+                            <v-text-field @keyup="addMulti6()" v-model="valorCompra" label="valor de compra"></v-text-field>
+                            <v-text-field @keyup="addMulti6()" v-model="multitoken" label="token"></v-text-field>
+                            <v-text-field @keyup="addMulti5()" v-model="montoToken" label="dolar"></v-text-field>
+                            <!-- <v-btn @click="buscartoken()">Buscar</v-btn> -->
+                            <v-btn @click="enviarinfo2()">Enviar</v-btn>
+                        </v-col>
+                    </v-row>
+                </v-col>
+                <v-col>
+                    <CardCoin :dataRe="dataRegistrada" :tokex="tokex" :current="currentP" />
+                </v-col>
+                <v-row class="ma-1 text-center">
+                    <v-col v-for="(coine, c) in tokenSaves" :key="c">
+                        <v-avatar @click="dataBill(coine)">
+                            <img :src="coine.logo" alt="">
+                        </v-avatar>
+                        <p>{{coine.symbol}}</p>
+                        <!-- <p>{{c}}</p> -->
                     </v-col>
                 </v-row>
+            </v-row>
+            
+            <!-- <h2>{{busqueda}}</h2> -->
+            <v-spacer></v-spacer>
+            <!-- ///////////// -->
+            <v-row v-for="(coin, i) in tokenSaves" :key="i" class="black mt-5" @click="dataBill(coin)">
+                <v-col cols="1">
+                    <img :src="coin.logo" alt="">
+                </v-col>
+                <v-col>
+                    <h4>{{coin.symbol}}</h4>
+                    <h3>{{coin.name}}</h3>
+                    <div>
+                        <span 
+                        v-if="token === coin.id && dataRegistrada"
+                        :class="[(tokex.market_data.current_price.usd - dataRegistrada.valorDeCompra) < 0 ? 'red--text' : 'green--text']"
+                        >
+                        {{(tokex.market_data.current_price.usd - dataRegistrada.valorDeCompra).toFixed(2)}}
+                        </span>
+                    </div>
+                </v-col>
+                <v-col>
+                    <h4>Valor</h4>
+                    <span class="yellow--text">{{coin.current_price}} $</span>
+                    <div>
+                        <span
+                        v-if="token === coin.id && dataRegistrada"
+                            :class="[tokex.market_data.current_price.usd < coin.current_price ? 'red--text' : 'green--text']">
+                            {{ tokex.market_data.current_price.usd }} $
+                        </span>
+                    </div>
+                        <!-- <span>{{Math.floor(coins[0].current_price - dataRegistrada.valorDeCompra)}}</span> -->
+                </v-col>
+                <v-col>
+                    <h4>Inversion</h4>
+                    <span class="red--text">$ {{coin.montoMoneda}}</span>
+                    <div>
+                        <span
+                            v-if="token === coin.id && dataRegistrada"
+                            :class="[multiplo < coin.montoMoneda ? 'red--text' : 'green--text']">
+                            $ {{multiplo.toFixed(3)}}
+                        </span>
+                    </div>
+                </v-col>
+                <v-col>
+                    <h4>Monto en token</h4>
+                    <span class="blue--text"> {{coin.montoUSD}}</span>
+                    <p>{{coin.fecha}}</p>
+                    <!-- <span>{{(coins[0].current_price - dataRegistrada.valorDeCompra).toFixed(3)}}</span> -->
+                </v-col>
+                <v-col v-if="token === coin.id && dataRegistrada">
+                    <h4>Margen</h4>
+                    <!-- <span>-</span> -->
+                    <!-- <span>{{coins[0].current_price - dataRegistrada.valorDeCompra}}</span> -->
+                    <span
+                        :class="[multiplo - coin.montoMoneda < 0 ? 'red--text' : 'green--text']">
+                        {{(multiplo - coin.montoMoneda).toFixed(4)}} $
+                    </span>
+                    <div>
+                        <span>{{dataRegistrada.fecha}}</span>
+                        <span v-show="(coin.buyDay - dataRegistrada.currentDay) > 0" class="blue--text">>> {{coin.buyDay - dataRegistrada.currentDay}}</span>
+                    </div>
+                </v-col>
+                <v-col cols="1">
+                    <!-- <span>{{coin.buyDay - dataRegistrada.currentDay}}</span> -->
+                    <v-icon color="red" @click="deleted(i)">mdi-delete</v-icon>
+                </v-col>
+            </v-row>
         </v-container>
     </div>
 </template>
@@ -120,9 +132,13 @@ import axios from 'axios'
 import firebase from 'firebase/app'
 import { db } from '@/plugins/firebase'
 const datosRefe = db.ref('tokeinfo')
+import CardCoin from '@/components/buscador/CardCoin'
 export default {
     firebase: {
       post: datosRefe
+    },
+    components: {
+        CardCoin
     },
     data: () => ({
         coins: [],
@@ -132,7 +148,7 @@ export default {
         compradousd: '',
         busqueda: '',
         montoTarj: '',
-        dataRegistrada: '',
+        dataRegistrada: {},
         tablero: false,
         token: 'bitcoin',
         montoToken: null,
@@ -140,7 +156,8 @@ export default {
         tokex: '',
         valorCompra: '',
         multitoken: '',
-        tokenBus: []
+        tokenBus: [],
+        currentP: 0
     }),
     computed: {
         tasa4() {
@@ -156,7 +173,7 @@ export default {
             return this.tokex.market_data.current_price.usd
         },
         multiplo() {
-            return this.tokeinfo.market_data.current_price.usd * this.montoTarj
+            return this.tokex.market_data.current_price.usd * this.montoTarj
         },
         totalMargen() {
             const data = this.infoCard
@@ -168,11 +185,11 @@ export default {
     },
     created() {
         // this.token = 'bitcoin'
-        // console.log(this.tasa4)
         this.$store.dispatch('rates/getTasaDeCambio4')
         this.buscartoken()
         this.coins = this.tasa3
         this.actualizarlista()
+        console.log(this.tokenSaves)
         const starC = firebase.database().ref(datosRefe);
           starC.on('value', (snapshot) => {
             const data = snapshot.val();
@@ -191,8 +208,11 @@ export default {
         async buscartoken() {
             const token = await axios.get('https://api.coingecko.com/api/v3/coins/' + `${this.token}`)
             this.tokex = token.data
-            // console.log(this.tokex);
-            this.$store.dispatch('coins/busqToken', token)
+            this.currentP = token.data.market_data.current_price.usd
+            const tokedat = token.data
+            this.valorCompra = this.currentP
+            // console.log(this.tokex)
+            this.$store.dispatch('coins/busqToken', tokedat)
         },
         actualizarlista() {
             this.$store.dispatch('rates/getTasaDeCambio3')
@@ -200,14 +220,14 @@ export default {
         enviarinfo3() {
             const fecha = new Date()
             const data = {
-                id: this.tokeinfo.id,
-                date: this.tokeinfo.last_updated,
+                id: this.tokex.id,
+                date: this.tokex.last_updated,
                 fecha: fecha.toLocaleDateString(),
                 buyDay: fecha.getDate(),
-                logo: this.tokeinfo.image.small,
-                name: this.tokeinfo.name,
-                symbol: this.tokeinfo.symbol,
-                current_price: this.tokeinfo.market_data.current_price.usd,
+                logo: this.tokex.image.small,
+                name: this.tokex.name,
+                symbol: this.tokex.symbol,
+                currentprice: this.tokex.market_data.current_price.usd,
                 montoUSD: this.montoDolar,
                 montoMoneda: this.montoToken
                 }
@@ -227,10 +247,10 @@ export default {
             const data = {
                 fecha: fecha.toLocaleDateString(),
                 buyDay: fecha.getDate(),
-                id: this.tokeinfo.id,
-                name: this.tokeinfo.name,
-                logo: this.tokeinfo.image.small,
-                symbol: this.tokeinfo.symbol,
+                id: this.tokex.id,
+                name: this.tokex.name,
+                logo: this.tokex.image.small,
+                symbol: this.tokex.symbol,
                 current_price: this.valorCompra,
                 montoUSD: this.multitoken,
                 montoMoneda: this.montoToken
@@ -253,10 +273,10 @@ export default {
             this.compradousd = this.comprado * this.coins[0].current_price
         },
         addMulti3() {
-            this.montoDolar = this.montoToken / this.tokeinfo.market_data.current_price.usd
+            this.montoDolar = this.montoToken / this.tokex.market_data.current_price.usd
         },
         addMulti4() {
-            this.montoToken = this.montoDolar * this.tokeinfo.market_data.current_price.usd
+            this.montoToken = this.montoDolar * this.tokex.market_data.current_price.usd
         },
         addMulti5() {
             this.multitoken = this.montoToken / this.valorCompra
@@ -278,13 +298,17 @@ export default {
                 valorDeCompra: i.current_price,
                 id: i.id,
                 fecha: fecha.toLocaleDateString(),
-                currentDay: fecha.getDate()
+                currentDay: fecha.getDate(),
+                logo: i.logo,
+                symbol: i.symbol
             }
             this.dataRegistrada = datos
             this.token = datos.id
             this.buscartoken()
             this.montoTarj = datos.montoUSD
-            console.log(this.tokenSaves)
+            this.montoToken = '',
+            this.multitoken = ''
+            // console.log(this.dataRegistrada)
         }
     }
 }

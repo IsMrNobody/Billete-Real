@@ -78,7 +78,7 @@ export const actions = {
         try {
           const tasa3 = await traerTasa3()
           commit('setTasaDeCambio3', tasa3)
-          console.log(tasa3)
+        //   console.log(tasa3)
         } catch (error) {
           error(message)
         }

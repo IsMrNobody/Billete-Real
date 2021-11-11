@@ -1,7 +1,7 @@
 export const state = () => ({
     info: [],
     toke: [],
-    tokenbusq: []
+    tokenbusq: [],
 })
 
 export const mutations = {
