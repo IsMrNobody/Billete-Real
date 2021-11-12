@@ -43,15 +43,6 @@
                         <CardCoin :dataRe="dataRegistrada" :tokex="tokex" :current="currentP" :iconF="iconFlecha" />
                     </template>
                 </v-dialog>
-                <!-- <v-row class="ma-1 text-center">
-                    <v-col v-for="(coine, c) in tokenSaves" :key="c">
-                        <v-avatar @click="dataBill(coine)">
-                            <img :src="coine.logo" alt="">
-                        </v-avatar>
-                        <p>{{coine.symbol}}</p>
-                        <p>{{c}}</p>
-                    </v-col>
-                </v-row> -->
             </v-row>
             
             <!-- <h2>{{busqueda}}</h2> -->
@@ -120,6 +111,7 @@ export default {
     },
     created() {
         this.token = 'bitcoin'
+        // this.dataBill()
         this.$store.dispatch('rates/getTasaDeCambio4')
 
         setInterval(() => {
@@ -261,7 +253,7 @@ export default {
             this.montoTarj = datos.montoUSD
             this.montoToken = '',
             this.multitoken = ''
-            // console.log(this.dataRegistrada)
+            console.log(this.tokenSaves)
         }
     }
 }

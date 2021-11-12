@@ -31,7 +31,7 @@
                     </div>
                       <v-col justify="center" align="center">
                         <v-chip outlined color="green">{{dataRe.montoUSD}}</v-chip>
-                      <span>{{dataRe.symbol}}</span>
+                      <span class="blue--text">{{dataRe.symbol}}</span>
                       </v-col>
                 </v-col>
             </v-row>
