@@ -44,6 +44,9 @@
                     :class="[(dataRe.montoUSD * current) - dataRe.montoM < 0 ? 'red--text' : 'green--text']"
                     >{{((dataRe.montoUSD * current) - dataRe.montoM).toFixed(2)}} $
                 </h1>
+                <!-- <p>{{iconF}}</p> -->
+                <v-icon size="80" color="green" v-if="iconF">mdi-trending-up</v-icon>
+                <v-icon size="80" color="red" v-else>mdi-trending-down</v-icon>
             </div>
         </v-col>
     </v-row>
@@ -103,31 +106,6 @@
             </v-list-item>
         </v-col>
     </v-row>
-    <!-- <v-card-text>
-      <v-chip-group
-        v-model="selection"
-        active-class="deep-purple accent-4 white--text"
-        column
-      >
-        <v-chip>5:30PM</v-chip>
-
-        <v-chip>7:30PM</v-chip>
-
-        <v-chip>8:00PM</v-chip>
-
-        <v-chip>9:00PM</v-chip>
-      </v-chip-group>
-    </v-card-text> -->
-
-    <!-- <v-card-actions>
-      <v-btn
-        color="deep-purple lighten-2"
-        text
-        @click="deleted(dataRe.id)"
-      >
-        Eliminar
-      </v-btn>
-    </v-card-actions> -->
   </v-card>
 </template>
 
@@ -145,10 +123,14 @@
         current: {
             type: Number,
             default: () => ({}) 
+        },
+        iconF: {
+            type: Boolean,
+            default: () => ({}) 
         }
     },
     created() {
-        console.log(this.tokeinfo)
+        // console.log(this.tokeinfo)
     },
     computed: {
         tokenSaves() {
