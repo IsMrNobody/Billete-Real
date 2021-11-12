@@ -1,7 +1,7 @@
 <template>
   <v-card
     :loading="loading"
-    class="mx-auto"
+    class="mx-auto black ma-1"
     max-width="374"
   >
     <template slot="progress">
@@ -18,7 +18,7 @@
             <!-- <v-card-subtitle>{{dataRe.symbol}}</v-card-subtitle> -->
 
             <v-row>
-                <v-col>
+                <v-col justify="center" align="center">
                     <v-avatar size="80">
                         <v-img
                         @click="info()"
@@ -26,56 +26,17 @@
                         :src="dataRe.logo"
                         ></v-img>
                     </v-avatar>
-                  <v-card-title>{{dataRe.name}}</v-card-title>
-                    <v-card-subtitle>{{dataRe.symbol}}</v-card-subtitle>
+                    <div>
+                      <h3>{{dataRe.name}}</h3>
+                    </div>
+                      <v-col justify="center" align="center">
+                        <v-chip outlined color="green">{{dataRe.montoUSD}}</v-chip>
+                      <span>{{dataRe.symbol}}</span>
+                      </v-col>
                 </v-col>
             </v-row>
-                <v-chip>{{dataRe.montoUSD}}</v-chip>
-            <v-row>
-            </v-row>
-        </v-col>
-        <v-col class="mr-2" justify="end" align="end">
-            <div>
-                <p class="text-subtitle-1 yellow--text">{{dataRe.montoM}} $</p>
-                <h4
-                  :class="[current < dataRe.valorDeCompra ? 'red--text' : 'green--text']"  
-                >{{(dataRe.montoUSD * current).toFixed(4)}} $</h4>
-                <h1
-                    :class="[(dataRe.montoUSD * current) - dataRe.montoM < 0 ? 'red--text' : 'green--text']"
-                    >{{((dataRe.montoUSD * current) - dataRe.montoM).toFixed(2)}} $
-                </h1>
-                <!-- <p>{{iconF}}</p> -->
-                <v-icon size="80" color="green" v-if="iconF">mdi-trending-up</v-icon>
-                <v-icon size="80" color="red" v-else>mdi-trending-down</v-icon>
-            </div>
         </v-col>
     </v-row>
-
-    <v-card-text>
-      <!-- <v-row
-        align="center"
-        class="mx-0"
-      >
-        <v-rating
-          :value="4.5"
-          color="amber"
-          dense
-          half-increments
-          readonly
-          size="14"
-        ></v-rating>
-
-        <div class="grey--text ms-4">
-          4.5 (413)
-        </div>
-      </v-row> -->
-
-      <!-- <div class="text-subtitle-1">
-        {{tokeinfo.symbol}}
-      </div> -->
-
-      <!-- <div>Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.</div> -->
-    </v-card-text>
 
     <v-divider class="mx-4"></v-divider>
 
@@ -104,6 +65,21 @@
                 <!-- <v-list-item-subtitle>{{dataRe.fecha}}</v-list-item-subtitle> -->
                 </v-list-item-content>
             </v-list-item>
+        </v-col>
+        <v-col class="mr-2" justify="end" align="end">
+            <div>
+                <p class="text-subtitle-1 yellow--text">{{dataRe.montoM}} $</p>
+                <h4
+                  :class="[current < dataRe.valorDeCompra ? 'red--text' : 'green--text']"  
+                >{{(dataRe.montoUSD * current).toFixed(4)}} $</h4>
+                <h1
+                    :class="[(dataRe.montoUSD * current) - dataRe.montoM < 0 ? 'red--text' : 'green--text']"
+                    >{{((dataRe.montoUSD * current) - dataRe.montoM).toFixed(2)}} $
+                </h1>
+                <!-- <p>{{iconF}}</p> -->
+                <v-icon size="80" color="green" v-if="iconF">mdi-trending-up</v-icon>
+                <v-icon size="80" color="red" v-else>mdi-trending-down</v-icon>
+            </div>
         </v-col>
     </v-row>
   </v-card>

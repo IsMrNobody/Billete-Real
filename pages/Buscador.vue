@@ -2,32 +2,56 @@
     <div>
         <v-container>
             <v-row>
-                <v-col align="center">
-                    <v-text-field
-                        :append-icon="'mdi-fire'"
-                        @click:append-outer="buscartoken()"
-                        outlined
-                        @keyup.enter="buscartoken()" v-model="token" label="buscar">
-                    </v-text-field>
-                    <!-- <v-text-field @keyup="clear()" v-model="token" label="buscar"></v-text-field> -->
-                    <v-text-field @keyup="addMulti6()" v-model="valorCompra" label="valor de compra"></v-text-field>
-                    <v-text-field @keyup="addMulti6()" v-model="multitoken" label="token"></v-text-field>
-                    <v-text-field @keyup="addMulti5()" v-model="montoToken" label="dolar"></v-text-field>
-                    <!-- <v-btn @click="buscartoken()">Buscar</v-btn> -->
-                    <v-btn @click="enviarinfo2()">Enviar</v-btn>
-                </v-col>
-                <v-col>
-                    <CardCoin :dataRe="dataRegistrada" :tokex="tokex" :current="currentP" :iconF="iconFlecha" />
-                </v-col>
-                <v-row class="ma-1 text-center">
+                <v-row>
+                    <v-col align="center" cols>
+                        <v-text-field
+                            :append-outer-icon="'mdi-magnify'"
+                            @click:append-outer="buscartoken()"
+                            outlined
+                            @keyup.enter="buscartoken()" v-model="token" label="buscar">
+                        </v-text-field>
+                        <!-- <v-text-field @keyup="clear()" v-model="token" label="buscar"></v-text-field> -->
+                        <v-text-field @keyup="addMulti6()" v-model="valorCompra" label="valor de compra"></v-text-field>
+                        <v-text-field @keyup="addMulti6()" v-model="multitoken" label="token"></v-text-field>
+                        <v-text-field @keyup="addMulti5()" v-model="montoToken" label="dolar"></v-text-field>
+                        <!-- <v-btn @click="buscartoken()">Buscar</v-btn> -->
+                        <v-btn @click="enviarinfo2()">Enviar</v-btn>
+                    </v-col>
+                    <v-col cols sm="6">
+                        <CardCoin :dataRe="dataRegistrada" :tokex="tokex" :current="currentP" :iconF="iconFlecha" />
+                    </v-col>
+                </v-row>
+                <v-dialog
+                    max-width="374"
+                    overlay-opacity="0.7"
+                >
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-row class="ma-1 text-center">
+                            <v-col v-for="(coine, c) in tokenSaves" :key="c">
+                                <v-avatar
+                                    @click="dataBill(coine)"
+                                    v-bind="attrs"
+                                    v-on="on">
+                                    <img :src="coine.logo" alt="">
+                                </v-avatar>
+                                <p>{{coine.symbol}}</p>
+                                <!-- <p>{{c}}</p> -->
+                            </v-col>
+                        </v-row>
+                    </template>
+                    <template>
+                        <CardCoin :dataRe="dataRegistrada" :tokex="tokex" :current="currentP" :iconF="iconFlecha" />
+                    </template>
+                </v-dialog>
+                <!-- <v-row class="ma-1 text-center">
                     <v-col v-for="(coine, c) in tokenSaves" :key="c">
                         <v-avatar @click="dataBill(coine)">
                             <img :src="coine.logo" alt="">
                         </v-avatar>
                         <p>{{coine.symbol}}</p>
-                        <!-- <p>{{c}}</p> -->
+                        <p>{{c}}</p>
                     </v-col>
-                </v-row>
+                </v-row> -->
             </v-row>
             
             <!-- <h2>{{busqueda}}</h2> -->
@@ -103,19 +127,19 @@ export default {
             console.log(this.valorCompra)
             localStorage.valorA = this.valorCompra
         }, 5000)
-        setInterval(() => {
-            localStorage.valorC = this.valorCompra
-            console.log(localStorage.valorC)
-        }, 15000)
+        // setInterval(() => {
+        //     localStorage.valorC = this.valorCompra
+        //     console.log(localStorage.valorC)
+        // }, 15000)
 
-        setInterval(() => {
-            if (localStorage.valorC  >= localStorage.valorA) {
-                this.iconFlecha = true
-            } else {
-                this.iconFlecha = false
-            }
-            console.log(this.iconFlecha)
-        }, 1000)
+        // setInterval(() => {
+        //     if (localStorage.valorC  >= localStorage.valorA) {
+        //         this.iconFlecha = true
+        //     } else {
+        //         this.iconFlecha = false
+        //     }
+        //     console.log(this.iconFlecha)
+        // }, 1000)
         this.coins = this.tasa3
         this.actualizarlista()
         // console.log(this.tokenSaves)
