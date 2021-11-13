@@ -41,6 +41,7 @@
                     </template>
                     <template>
                         <CardCoin :dataRe="dataRegistrada" :tokex="tokex" :current="currentP" :iconF="iconFlecha" />
+                        <v-btn>Eliminar</v-btn>
                     </template>
                 </v-dialog>
             </v-row>
@@ -107,34 +108,39 @@ export default {
         },
         tokenSaves() {
             return this.$store.state.coins.tokenbusq
+        },
+        tokid() {
+            return this.tokenSaves['-Mo11CFviqFhWVDT3ucz']
         }
     },
     created() {
         this.token = 'bitcoin'
-        // this.dataBill()
         this.$store.dispatch('rates/getTasaDeCambio4')
-
+        setTimeout(() => {
+            this.dataBill(this.tokid)
+            // this.enviarinfo2()
+            console.log(this.tokid)
+        }, 3000)
         setInterval(() => {
             this.buscartoken()
             console.log(this.valorCompra)
-            localStorage.valorA = this.valorCompra
+            localStorage.valorA = this.currentP
         }, 5000)
-        // setInterval(() => {
-        //     localStorage.valorC = this.valorCompra
-        //     console.log(localStorage.valorC)
-        // }, 15000)
+        setInterval(() => {
+            localStorage.valorC = this.valorCompra
+            console.log(localStorage.valorC)
+        }, 30000)
 
-        // setInterval(() => {
-        //     if (localStorage.valorC  >= localStorage.valorA) {
-        //         this.iconFlecha = true
-        //     } else {
-        //         this.iconFlecha = false
-        //     }
-        //     console.log(this.iconFlecha)
-        // }, 1000)
+        setInterval(() => {
+            if (localStorage.valorA  > localStorage.valorC) {
+                this.iconFlecha = true
+            } else {
+                this.iconFlecha = false
+            }
+            console.log(this.iconFlecha)
+        }, 28000)
         this.coins = this.tasa3
         this.actualizarlista()
-        // console.log(this.tokenSaves)
         const starC = firebase.database().ref(datosRefe);
           starC.on('value', (snapshot) => {
             const data = snapshot.val();
@@ -143,8 +149,14 @@ export default {
           });
     },
     methods: {
+        // tokenids() {
+        //     this.tokenSaves.forEach((element, index) => {
+        //         console.log(index)
+        //     })
+        // },
         buscarTokin() {
             this.tokenBus = this.tokenSaves.filter(coin => coin.name.includes(this.tokenBus))
+            console.log(this.tokenBus)
         },
         clear() {
             this.montoDolar = '',
@@ -252,8 +264,8 @@ export default {
             this.buscartoken()
             this.montoTarj = datos.montoUSD
             this.montoToken = '',
-            this.multitoken = ''
-            console.log(this.tokenSaves)
+            this.multitoken = '',
+            console.log(this.tokid)
         }
     }
 }
