@@ -22,26 +22,36 @@
                     </v-col>
                 </v-row>
                 <v-dialog
-                    max-width="374"
+                    max-width="400"
                     overlay-opacity="0.7"
                 >
                     <template v-slot:activator="{ on, attrs }">
-                        <v-row class="ma-1 text-center">
-                            <v-col v-for="(coine, c) in tokenSaves" :key="c">
+                        <v-row class="ma-1 mt-4 mx-auto">
+                            <v-col v-for="(coine, c) in tokenSaves" :key="c" justify="center" align="center">
                                 <v-avatar
                                     @click="dataBill(coine)"
                                     v-bind="attrs"
                                     v-on="on">
                                     <img :src="coine.logo" alt="">
                                 </v-avatar>
+                                <v-btn v-show="borrar" class="pos" x-small fab @click="deleted(c)">x</v-btn>
                                 <p>{{coine.symbol}}</p>
                                 <!-- <p>{{c}}</p> -->
+                            </v-col>
+                            <v-col>
+                                <v-btn x-large color="red" @click="deleite()">Eliminar</v-btn>
                             </v-col>
                         </v-row>
                     </template>
                     <template>
-                        <CardCoin :dataRe="dataRegistrada" :tokex="tokex" :current="currentP" :iconF="iconFlecha" />
-                        <v-btn>Eliminar</v-btn>
+                        <CardCoin
+                            :dataRe="dataRegistrada"
+                            :tokex="tokex"
+                            :current="currentP"
+                            :iconF="iconFlecha"
+                            :idefy="identifi"
+                         />
+                        <!-- <v-btn @click="deleted(tokenSaves.c)">Eliminar</v-btn> -->
                     </template>
                 </v-dialog>
             </v-row>
@@ -84,7 +94,9 @@ export default {
         multitoken: '',
         tokenBus: [],
         currentP: 0,
-        iconFlecha: null
+        iconFlecha: null,
+        identifi: '',
+        borrar: true
     }),
     computed: {
         tasa4() {
@@ -149,6 +161,9 @@ export default {
           });
     },
     methods: {
+        deleite() {
+            this.borrar = !this.borrar
+        },
         // tokenids() {
         //     this.tokenSaves.forEach((element, index) => {
         //         console.log(index)
@@ -263,9 +278,10 @@ export default {
             this.token = datos.id
             this.buscartoken()
             this.montoTarj = datos.montoUSD
-            this.montoToken = '',
-            this.multitoken = '',
-            console.log(this.tokid)
+            this.montoToken = ''
+            this.multitoken = ''
+            this.identifi = i
+            console.log(this.identifi)
         }
     }
 }
@@ -274,5 +290,11 @@ export default {
 <style scoped>
 .colorbuscar {
     background-color: rgba(0, 0, 0, 0.5);
+}
+.pos {
+    position: absolute;
+    margin-left: -12px;
+    margin-top: -10px;
+    transform: scale(0.8);
 }
 </style>

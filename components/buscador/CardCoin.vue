@@ -80,12 +80,15 @@
                 <v-icon size="80" color="green" v-if="iconF">mdi-trending-up</v-icon>
                 <v-icon size="80" color="red" v-else>mdi-trending-down</v-icon>
             </div>
+              <!-- <v-btn @click="deleted()" small outlined color="red">X</v-btn> -->
         </v-col>
     </v-row>
   </v-card>
 </template>
 
 <script>
+  import { db } from '@/plugins/firebase'
+  const datosRefe = db.ref('tokeinfo')
   export default {
     data: () => ({
       loading: false,
@@ -103,6 +106,10 @@
         iconF: {
             type: Boolean,
             default: () => ({}) 
+        },
+        idefy: {
+          type: Object,
+          default: () => ({}) 
         }
     },
     created() {
@@ -115,13 +122,17 @@
     },
 
     methods: {
-        info() {
-            console.log(this.dataRe)
-        },
+      info() {
+          console.log(this.dataRe)
+      },
       reserve () {
         this.loading = true
 
         setTimeout(() => (this.loading = false), 2000)
+      },
+      deleted(idefy) {
+          datosRefe.child(idefy).remove()
+          console.log(i)
       }
     },
   }
